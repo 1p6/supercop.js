@@ -1,0 +1,30 @@
+{
+  "name": "supercop.js",
+  "version": "1.0.0",
+  "description": "orlp/ed25519 compiled to pure javascript using Emscripten",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/**/*.js",
+    "vendor": "git clone https://github.com/orlp/ed25519.git vendor",
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1p6/supercop.js.git"
+  },
+  "keywords": [
+    "ed25519",
+    "supercop",
+    "signature"
+  ],
+  "author": "1p6",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1p6/supercop.js/issues"
+  },
+  "homepage": "https://github.com/1p6/supercop.js#readme",
+  "devDependencies": {
+    "glob": "^7.0.3",
+    "tape": "^4.5.1"
+  }
+}

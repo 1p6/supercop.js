@@ -1,0 +1,6 @@
+vendor
+test
+supercop.c
+build.js
+.npmignore
+.gitignore
