@@ -1,6 +1,6 @@
 {
   "name": "supercop.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "orlp/ed25519 compiled to pure javascript using Emscripten",
   "main": "index.js",
   "scripts": {
