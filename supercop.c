@@ -2,7 +2,6 @@
 #define ED25519_NO_SEED value
 #endif
 #include "vendor/src/ed25519.h"
-#include <stdio.h>
 #include <emscripten.h>
 
 EMSCRIPTEN_KEEPALIVE
