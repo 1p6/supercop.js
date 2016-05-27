@@ -1,7 +1,7 @@
 var Module = require('./lib.js')
 var randomBytes = require('crypto').randomBytes
 
-exports.createKeypair = function(){
+function generateKeypair(){
   var seedPtr = Module._malloc(32)
   var seed = new Uint8Array(Module.HEAPU8.buffer, seedPtr, 32)
   var pubKeyPtr = Module._malloc(32)
@@ -17,6 +17,14 @@ exports.createKeypair = function(){
     pubKey: new Buffer(pubKey),
     privKey: new Buffer(privKey)
   }
+}
+
+// redundancy to provide compatibility with other libraries
+exports.createKeypair = generateKeypair
+exports.createKeyPair = generateKeypair
+
+exports.createSeed = function(){
+  return
 }
 
 exports.sign = function(msg, pubKey, privKey){
@@ -35,6 +43,11 @@ exports.sign = function(msg, pubKey, privKey){
   msgArr.set(msg)
   pubKeyArr.set(pubKey)
   privKeyArr.set(privKey)
+
+  // redundancy to provide compatibility with other libraries
+  pubKeyArr.set(publicKey)
+  privKeyArr.set(secretKey)
+
   Module._sign(sigPtr, msgArrPtr, msgLen, pubKeyArrPtr, privKeyArrPtr)
   Module._free(msgArrPtr)
   Module._free(pubKeyArrPtr)
