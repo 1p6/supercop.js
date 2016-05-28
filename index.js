@@ -1,21 +1,28 @@
 var Module = require('./lib.js')
 var randomBytes = require('crypto').randomBytes
 
-exports.createKeypair = function(){
+exports.createSeed = function(){
+  return randomBytes(32)
+}
+
+exports.createKeyPair = function(seed){
+  if(!Buffer.isBuffer(seed)){
+    throw new Error('not buffers!')
+  }
   var seedPtr = Module._malloc(32)
-  var seed = new Uint8Array(Module.HEAPU8.buffer, seedPtr, 32)
+  var seedBuf = new Uint8Array(Module.HEAPU8.buffer, seedPtr, 32)
   var pubKeyPtr = Module._malloc(32)
   var pubKey = new Uint8Array(Module.HEAPU8.buffer, pubKeyPtr, 32)
   var privKeyPtr = Module._malloc(64)
   var privKey = new Uint8Array(Module.HEAPU8.buffer, privKeyPtr, 64)
-  seed.set(randomBytes(32))
+  seedBuf.set(seed)
   Module._create_keypair(pubKeyPtr, privKeyPtr, seedPtr)
   Module._free(seedPtr)
   Module._free(pubKeyPtr)
   Module._free(privKeyPtr)
   return {
-    pubKey: new Buffer(pubKey),
-    privKey: new Buffer(privKey)
+    publicKey: new Buffer(pubKey),
+    secretKey: new Buffer(privKey)
   }
 }
 
@@ -43,7 +50,7 @@ exports.sign = function(msg, pubKey, privKey){
   return new Buffer(sig)
 }
 
-exports.verify = function(msg, sig, pubKey){
+exports.verify = function(sig, msg, pubKey){
   if(!Buffer.isBuffer(msg) || !Buffer.isBuffer(sig) || !Buffer.isBuffer(pubKey)){
     throw new Error('not buffers!')
   }

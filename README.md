@@ -6,10 +6,11 @@
 ``` javascript
 var lib = require('supercop.js')
 
-var keys = lib.createKeypair()
+var seed = lib.createSeed()
+var keys = lib.createKeyPair(seed)
 var msg = new Buffer('hello there')
 var sig = lib.sign(msg, keys.pubKey, keys.privKey)
-console.log(lib.verify(msg, sig, keys.pubKey)) // true
+console.log(lib.verify(sig, msg, keys.pubKey)) // true
 ```
 
 ## storing keypairs
@@ -17,7 +18,8 @@ console.log(lib.verify(msg, sig, keys.pubKey)) // true
 var lib = require('supercop.js')
 var fs = require('fs')
 
-var keys = lib.createKeypair()
+var seed = lib.createSeed()
+var keys = lib.createKeyPair(seed)
 
 fs.writeFileSync('keys.json', JSON.stringify({
   pubKey: keys.pubKey.toString('base64'),
@@ -29,7 +31,7 @@ fs.writeFileSync('keys.json', JSON.stringify({
 ``` javascript
 var fs = require('fs')
 
-var keys = JSON.parse(fs.readFileSync('keys.json'))
+var keys = require('keys.json')
 keys = {
   pubKey: new Buffer(keys.pubKey, 'base64'),
   privKey: new Buffer(keys.privKey, 'base64')
@@ -37,10 +39,13 @@ keys = {
 ```
 
 # api
-## var keys = lib.createKeypair()
-Generates a keypair with the following properties:
-* `keys.pubKey` - A 32 byte public key as a buffer.
-* `keys.privKey` - A 64 byte private key as a buffer.
+## var seed = lib.createSeed()
+Generates a cryptographically-secure 32-byte seed.
+
+## var keys = lib.createKeyPair(seed)
+Generates a keypair from the provided 32-byte seed with the following properties:
+* `keys.publicKey` - A 32 byte public key as a buffer.
+* `keys.secretKey` - A 64 byte private key as a buffer.
 
 ## var sig = lib.sign(msg, pubKey, privKey)
 Signs a given message of any length.
@@ -49,9 +54,9 @@ Signs a given message of any length.
 * `privKey` - The private key to sign with as a buffer.
 * `sig` - The resulting signature as a buffer of length 64 bytes.
 
-## var valid = lib.verify(msg, sig, pubKey)
+## var valid = lib.verify(sig, msg, pubKey)
 Verifies a given signature goes with the message and key.
-* `msg` - The message that the signature represents.
 * `sig` - The signature to verify.
+* `msg` - The message that the signature represents.
 * `pubKey` - The public key used to generate the signature.
 * `valid` - A boolean telling whether the signature is valid(`true`) or invalid(`false`).
