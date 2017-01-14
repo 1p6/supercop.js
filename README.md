@@ -31,7 +31,7 @@ fs.writeFileSync('keys.json', JSON.stringify({
 ``` javascript
 var fs = require('fs')
 
-var keys = require('keys.json')
+var keys = require('./keys.json')
 keys = {
   publicKey: new Buffer(keys.publicKey, 'base64'),
   secretKey: new Buffer(keys.secretKey, 'base64')
