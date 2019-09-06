@@ -1,6 +1,8 @@
 # supercop.js
 [orlp/ed25519](https://github.com/orlp/ed25519) compiled to pure javascript using Emscripten
 
+A version compiled to WASM and also better maintained can be found at [nazar-pc/supercop.wasm](https://github.com/nazar-pc/supercop.wasm).  It probably works as opposed to this old code.
+
 # example
 ## signing and verifying stuff
 ``` javascript
